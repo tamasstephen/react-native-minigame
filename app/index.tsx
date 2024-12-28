@@ -1,14 +1,35 @@
 import { AppView } from "@/components/AppView";
 import PrimaryButton from "@/components/PrimaryButton";
 import { Stack } from "expo-router";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { SyntheticEvent, useState } from "react";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 function StartGameScreen() {
-  const confirmOnPress = () => {
-    console.log("confirmed");
+  const [enteredValue, setEnteredValue] = useState("");
+
+  const confirmOnPress = (e: SyntheticEvent) => {
+    console.log("enteredValue:", enteredValue);
   };
   const resetOnPress = () => {
-    console.log("reset");
+    setEnteredValue("");
   };
+
+  const confirmInputHandler = (enteredValue: string) => {
+    const chosenNumber = parseInt(enteredValue);
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert(
+        "Invalid number!",
+        "Number has to be a number between 1 and 99.",
+        [{ text: "Okay", style: "destructive", onPress: resetOnPress }]
+      );
+      return;
+    }
+  };
+
+  const handleTextChange = (text: string) => {
+    confirmInputHandler(text);
+    setEnteredValue(text);
+  };
+
   return (
     <AppView>
       <View style={styles.inputContainer}>
@@ -23,6 +44,8 @@ function StartGameScreen() {
             keyboardType="number-pad"
             autoCapitalize="none"
             autoCorrect={false}
+            onChangeText={handleTextChange}
+            value={enteredValue}
           />
           <View style={styles.buttonHolder}>
             <PrimaryButton onPress={resetOnPress}>Reset</PrimaryButton>
