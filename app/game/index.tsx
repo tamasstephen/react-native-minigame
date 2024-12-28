@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { AppView } from "@/components/ui/AppView";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { useEffect, useState } from "react";
@@ -31,6 +31,18 @@ function GameScreen() {
     );
     setGuessedNumber(initialGuess);
   }, []);
+
+  useEffect(() => {
+    if (guessedNumber === numberToguess) {
+      Alert.alert("You won!", "You guessed the number!", [
+        {
+          text: "New Game",
+          style: "destructive",
+          onPress: () => router.push("/"),
+        },
+      ]);
+    }
+  }, [guessedNumber]);
 
   function nextGuessHandler(direction: "lower" | "greater") {
     if (
