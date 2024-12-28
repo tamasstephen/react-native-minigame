@@ -1,13 +1,18 @@
 import { AppView } from "@/components/AppView";
 import PrimaryButton from "@/components/PrimaryButton";
 import { Stack } from "expo-router";
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import { router, Href } from "expo-router";
+
 function StartGameScreen() {
   const [enteredValue, setEnteredValue] = useState("");
 
-  const confirmOnPress = (e: SyntheticEvent) => {
-    console.log("enteredValue:", enteredValue);
+  const confirmOnPress = () => {
+    if (!enteredValue) {
+      return;
+    }
+    router.push(`/game?guess=${enteredValue}` as Href);
   };
   const resetOnPress = () => {
     setEnteredValue("");
