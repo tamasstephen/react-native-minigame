@@ -1,23 +1,27 @@
 import { AppView } from "@/components/ui/AppView";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import { Stack } from "expo-router";
-import { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { router, Href } from "expo-router";
 import Colors from "@/constants/Colors";
+import { useGame } from "@/context/GameContext";
+import { useEffect } from "react";
 
 function StartGameScreen() {
-  const [enteredValue, setEnteredValue] = useState("");
+  const { currentNumber, setCurrentNumber, resetGame } = useGame();
+
+  useEffect(() => {
+    resetGame();
+  }, []);
 
   const confirmOnPress = () => {
-    if (!enteredValue) {
+    if (!currentNumber) {
       return;
     }
-    router.push(`/game?guess=${enteredValue}` as Href);
-    setEnteredValue("");
+    router.push(`/game` as Href);
   };
   const resetOnPress = () => {
-    setEnteredValue("");
+    setCurrentNumber("");
   };
 
   const confirmInputHandler = (providedValue: string) => {
@@ -34,7 +38,7 @@ function StartGameScreen() {
 
   const handleTextChange = (text: string) => {
     confirmInputHandler(text);
-    setEnteredValue(text);
+    setCurrentNumber(text);
   };
 
   return (
@@ -52,7 +56,7 @@ function StartGameScreen() {
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={handleTextChange}
-            value={enteredValue}
+            value={currentNumber}
           />
           <View style={styles.buttonHolder}>
             <PrimaryButton onPress={resetOnPress}>Reset</PrimaryButton>

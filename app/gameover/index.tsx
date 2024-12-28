@@ -3,10 +3,12 @@ import { AppView } from "@/components/ui/AppView";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import Title from "@/components/ui/Title";
 import Colors from "@/constants/Colors";
+import { useGame } from "@/context/GameContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { View, StyleSheet, Image, Text } from "react-native";
 
 export default function GameOverScreen() {
+  const { rounds, currentNumber, resetGame } = useGame();
   const { state } = useLocalSearchParams();
   return (
     <AppView>
@@ -21,15 +23,16 @@ export default function GameOverScreen() {
             <View style={styles.textContainer}>
               <Text style={styles.summaryText}>
                 Your phone needed{" "}
-                <Text style={styles.highlightText}>{`maxRounds`} </Text>rounds
-                to guess the number{" "}
-                <Text style={styles.highlightText}>{`numberToGuess`}</Text>.
+                <Text style={styles.highlightText}>{rounds} </Text>rounds to
+                guess the number{" "}
+                <Text style={styles.highlightText}>{currentNumber}</Text>.
               </Text>
             </View>
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
               <PrimaryButton
                 onPress={() => {
-                  router.replace("/");
+                  resetGame();
+                  router.dismissTo("/");
                 }}
               >
                 Restart
