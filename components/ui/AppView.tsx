@@ -1,10 +1,11 @@
-import { StyleSheet, ImageBackground } from "react-native";
+import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Colors } from "@/constants/Colors";
 
 export function AppView({ children }: { children: React.ReactNode }) {
   return (
     <LinearGradient
-      colors={["#3b021f", "#ddb52f"]}
+      colors={[Colors.primary800, Colors.accent500]}
       style={styles.backgroundColor}
     >
       <ImageBackground
@@ -14,7 +15,7 @@ export function AppView({ children }: { children: React.ReactNode }) {
         style={styles.backgroundColor}
         imageStyle={{ opacity: 0.5 }}
       >
-        {children}
+        <SafeAreaView style={styles.backgroundColor}>{children}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
   );

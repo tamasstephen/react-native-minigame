@@ -1,9 +1,10 @@
-import { AppView } from "@/components/AppView";
-import PrimaryButton from "@/components/PrimaryButton";
+import { AppView } from "@/components/ui/AppView";
+import PrimaryButton from "@/components/ui/PrimaryButton";
 import { Stack } from "expo-router";
 import { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { router, Href } from "expo-router";
+import Colors from "@/constants/Colors";
 
 function StartGameScreen() {
   const [enteredValue, setEnteredValue] = useState("");
@@ -18,8 +19,8 @@ function StartGameScreen() {
     setEnteredValue("");
   };
 
-  const confirmInputHandler = (enteredValue: string) => {
-    const chosenNumber = parseInt(enteredValue);
+  const confirmInputHandler = (providedValue: string) => {
+    const chosenNumber = Number(providedValue);
     if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
       Alert.alert(
         "Invalid number!",
@@ -71,9 +72,9 @@ const styles = StyleSheet.create({
   textInput: {
     height: 50,
     width: 50,
-    borderBottomColor: "#ddb52f",
+    borderBottomColor: Colors.accent500,
     borderBottomWidth: 2,
-    color: "#ddb52f",
+    color: Colors.accent500,
     marginVertical: 12,
     fontSize: 32,
     fontWeight: "bold",
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 16,
     marginTop: 16,
-    backgroundColor: "#4e0329",
+    backgroundColor: Colors.primary800,
     marginHorizontal: 16,
     borderRadius: 8,
     elevation: 4,
