@@ -14,6 +14,7 @@ function StartGameScreen() {
       return;
     }
     router.push(`/game?guess=${enteredValue}` as Href);
+    setEnteredValue("");
   };
   const resetOnPress = () => {
     setEnteredValue("");
