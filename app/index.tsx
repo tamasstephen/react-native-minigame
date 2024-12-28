@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   textInput: {
+    fontFamily: "SpaceMonoBold",
     height: 50,
     width: 50,
     borderBottomColor: Colors.accent500,
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   instructions: {
+    fontFamily: "SpaceMonoBold",
     color: "white",
     fontSize: 20,
     fontWeight: "bold",

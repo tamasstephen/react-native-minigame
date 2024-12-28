@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   subtitle: {
+    fontFamily: "SpaceMonoBold",
     fontSize: 16,
     color: "white",
     fontWeight: "bold",

@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
+    fontFamily: "SpaceMonoBold",
   },
   pressed: {
     opacity: 0.75,

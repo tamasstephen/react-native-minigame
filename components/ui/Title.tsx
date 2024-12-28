@@ -18,5 +18,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
     padding: 12,
+    fontFamily: "SpaceMonoBold",
   },
 });
