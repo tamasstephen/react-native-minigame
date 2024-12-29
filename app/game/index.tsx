@@ -1,11 +1,11 @@
 import { router } from "expo-router";
 import { AppView } from "@/components/ui/AppView";
-import { View, Text, StyleSheet, Alert } from "react-native";
-import { useEffect } from "react";
+import { View, Text, StyleSheet, Alert, FlatList } from "react-native";
+import { useEffect, useState } from "react";
 import Title from "@/components/ui/Title";
 import Guess from "@/components/game/Guess";
 import PrimaryButton from "@/components/ui/PrimaryButton";
-import Color from "@/constants/Colors";
+import Color, { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useGame } from "@/context/GameContext";
 
@@ -13,8 +13,14 @@ let minBoundary = 1;
 let maxBoundary = 100;
 
 function GameScreen() {
-  const { currentNumber, currentGuess, setCurrentGuess, increaseRounds } =
-    useGame();
+  const {
+    currentNumber,
+    currentGuess,
+    setCurrentGuess,
+    increaseRounds,
+    rounds,
+  } = useGame();
+  const [guessedNumbers, setGuessedNumbers] = useState<number[]>([]);
 
   function generateRandomBetween(min: number, max: number, exclude?: number) {
     const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -28,6 +34,14 @@ function GameScreen() {
     const initialGuess = generateRandomBetween(1, 100, Number(currentNumber));
     setCurrentGuess(initialGuess);
   }, []);
+
+  useEffect(() => {
+    if (currentGuess === 0) return;
+    setGuessedNumbers((prevGuessedNumbers) => [
+      currentGuess,
+      ...prevGuessedNumbers,
+    ]);
+  }, [currentGuess]);
 
   useEffect(() => {
     if (Number(currentNumber) === currentGuess) {
@@ -77,8 +91,12 @@ function GameScreen() {
             </PrimaryButton>
           </View>
         </View>
-        <View>
-          <Text> Log rounds</Text>
+        <View style={styles.guessList}>
+          <FlatList
+            data={guessedNumbers}
+            renderItem={({ item }) => <GuessLogs guess={item} />}
+            keyExtractor={(item) => item.toString()}
+          />
         </View>
       </View>
     </AppView>
@@ -87,11 +105,20 @@ function GameScreen() {
 
 export default GameScreen;
 
+const GuessLogs = ({ guess }: { guess: number }) => {
+  return (
+    <View style={styles.guessLogBox}>
+      <Text style={styles.guessLogText}>The player guessed: {guess}</Text>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 32,
   },
   title: {
     fontSize: 20,
@@ -119,5 +146,31 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 24,
     marginHorizontal: 24,
+  },
+  guessList: {
+    marginTop: 16,
+    marginHorizontal: 24,
+    maxHeight: "50%",
+    width: "100%",
+  },
+  guessLogBox: {
+    backgroundColor: Colors.accent500,
+    marginHorizontal: 24,
+    padding: 12,
+    marginVertical: 8,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: Colors.primary800,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.25,
+  },
+  guessLogText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    fontFamily: "SpaceMonoBold",
   },
 });
